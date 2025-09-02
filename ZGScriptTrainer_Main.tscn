@@ -338,52 +338,82 @@ func _ready() -> void:
 	optionButton5_add()
 	optionButton6_add()
 
-var options1 = {
-		\"我全都要\":\"我全都要\",
-		\"降解纸杯+\":\"非完美出杯COMBO+\",
-		\"吸管+\":\"极限出杯简化+\",
-		\"隔温杯套+\":\"快速出杯简化+\",
-		\"品牌杯+\":\"跳单补偿+\",
-		\"一次性手套+\":\"一次性手套+\",
-		\"小白鞋+\":\"小白鞋+\",
-		\"防滑靴+\":\"防滑靴+\",
-		\"学生拖鞋+\":\"学生拖鞋+\",
-		\"小翅膀+\":\"小翅膀+\",
-		\"工作名牌+\":\"工作名牌+\",
-		\"员工帽+\":\"员工帽+\",
-		\"防沫口罩+\":\"防沫口罩+\",
-		\"耳麦+\":\"耳麦+\",
-		\"公交卡+\":\"提前上班+\",
-		\"发套+\":\"加班洗脑+\",
-		\"延时手表+\":\"自愿加班+\",
-		\"耳罩+\":\"耳罩+\",
-		\"兔耳发卡+\":\"兔耳发卡+\",
-		\"人字拖+\":\"冥思+\",
-		\"口罩+\":\"回光返照+\",
-		\"脏脏围裙+\":\"COMBO声望+\",
-		\"女仆围裙+\":\"跳单声望+\",
-		\"焦急围裙+\":\"快出声望+\",
-		\"拖延围裙+\":\"极限好评+\",
-		\"麦克风+\":\"小蜜蜂+\",
-		\"搬货手套+\":\"合理堆放+\",
-		\"垃圾分解+\":\"垃圾分解+\",
-		\"防毒面具+\":\"防毒面具+\",
-		\"工作手套+\":\"工作手套+\",
-		\"绝缘手套+\":\"绝缘手套+\",
-		\"尖爪手套+\":\"尖爪手套+\",
-		\"橡胶手套+\":\"橡胶手套+\",
-		\"防烫手套+\":\"防烫手套+\",
-		#\"纸尿裤+\",
-	}
+
+func info(message,data):
+	TextEdit1.text += message + \":\" + to_json(data) + \"\\n\"
+#var options1 = {
+#		\"我全都要\":\"我全都要\",
+#		\"降解纸杯+\":\"非完美出杯COMBO+\",
+#		\"吸管+\":\"极限出杯简化+\",
+#		\"隔温杯套+\":\"快速出杯简化+\",
+#		\"品牌杯+\":\"跳单补偿+\",
+#		\"一次性手套+\":\"一次性手套+\",
+#		\"小白鞋+\":\"小白鞋+\",
+#		\"防滑靴+\":\"防滑靴+\",
+#		\"学生拖鞋+\":\"学生拖鞋+\",
+#		\"小翅膀+\":\"小翅膀+\",
+#		\"工作名牌+\":\"工作名牌+\",
+#		\"员工帽+\":\"员工帽+\",
+#		\"防沫口罩+\":\"防沫口罩+\",
+#		\"耳麦+\":\"耳麦+\",
+#		\"公交卡+\":\"提前上班+\",
+#		\"发套+\":\"加班洗脑+\",
+#		\"延时手表+\":\"自愿加班+\",
+#		\"耳罩+\":\"耳罩+\",
+#		\"兔耳发卡+\":\"兔耳发卡+\",
+#		\"人字拖+\":\"冥思+\",
+#		\"口罩+\":\"回光返照+\",
+#		\"脏脏围裙+\":\"COMBO声望+\",
+#		\"女仆围裙+\":\"跳单声望+\",
+#		\"焦急围裙+\":\"快出声望+\",
+#		\"拖延围裙+\":\"极限好评+\",
+#		\"麦克风+\":\"小蜜蜂+\",
+#		\"搬货手套+\":\"合理堆放+\",
+#		\"垃圾分解+\":\"垃圾分解+\",
+#		\"防毒面具+\":\"防毒面具+\",
+#		\"工作手套+\":\"工作手套+\",
+#		\"绝缘手套+\":\"绝缘手套+\",
+#		\"尖爪手套+\":\"尖爪手套+\",
+#		\"橡胶手套+\":\"橡胶手套+\",
+#		\"防烫手套+\":\"防烫手套+\",
+#		#\"纸尿裤+\",
+#	}
+
+var options1 = {}
+
+
 # 添加物品选项
 func optionButton1_add():
-	
+	optionButton1.add_item(\"我全都要\")
+	options1[\"我全都要\"] = \"我全都要\"
+	var CardKeys = GameLogic.Config.CardConfig.keys()
+	var h_CardNames = []
+	for _CardName in CardKeys:
+		var _INFO = GameLogic.Config.CardConfig[_CardName]
+		if _INFO.UnlockType == \"关闭\" or _INFO.UnlockType == \"EGG\" or h_CardNames.has(_INFO.UnlockValue):
+			h_CardNames.append(_CardName)
+			continue
+			
+		if int(_INFO.MainType) == 0:
+			if \"测试\" in str(_CardName):
+				continue
+			if GameLogic.Config.CardConfig.has(_CardName + \"+\") or \"+\" in _CardName:
+				if options1.has(_CardName + \"+\") or options1.has(_CardName):
+					continue
+				else:
+					if \"+\" in _CardName:
+						pass
+					else:
+						_CardName = _CardName + \"+\"
+			options1[_CardName] = _CardName
+			optionButton1.add_item(_CardName)
 
-	for item in options1.keys():
-		optionButton1.add_item(item)
+
+	#for item in options1.keys():
+		
 	#optionButton1.add_item(\"高速配送+\")
 
-var options5 = {
+var options5_tmp = {
 	\"极速钢刷\":\"无压快出\",
 	\"平行时间\":\"快慢有度\",
 	\"照片墙\":\"小费倍率COMBO\",
@@ -549,18 +579,41 @@ var Event_list = [
 	\"去代价\",
 	\"随机升级奖励\",
 ]
-
+var options5= {}
+# 添加礼物选项
+func optionButton5_add():
+	optionButton5.add_item(\"我全都要\")
+	options5[\"我全都要\"] = \"我全都要\"
+	var CardKeys = GameLogic.Config.CardConfig.keys()
+	var h_CardNames = []
+	for _CardName in CardKeys:
+		var _INFO = GameLogic.Config.CardConfig[_CardName]
+		if _INFO.UnlockType == \"关闭\" or _INFO.UnlockType == \"EGG\" or h_CardNames.has(_INFO.UnlockValue):
+			h_CardNames.append(_CardName)
+			continue
+			
+		if int(_INFO.MainType) == 1:
+			if \"测试\" in str(_CardName):
+				continue
+			if GameLogic.Config.CardConfig.has(_CardName + \"+\") or \"+\" in _CardName:
+				if options5.has(_CardName + \"+\") or options5.has(_CardName):
+					continue
+				else:
+					if \"+\" in _CardName:
+						pass
+					else:
+						_CardName = _CardName + \"+\"
+			options5[_CardName] = _CardName
+			optionButton5.add_item(_CardName)
+		
+		
 #添加恶魔契约
 func optionButton6_add():
 	
 	for event in Event_list:
 		optionButton6.add_item(event)
 
-# 添加礼物选项
-func optionButton5_add():
 
-	for item in options5.keys():
-		optionButton5.add_item(item)
 		
 #添加顾客
 func optionButton2_add():
@@ -1261,6 +1314,22 @@ func _on_Button11_pressed():
 		return
 
 	var selected_text = optionButton5.get_item_text(selected_index)
+	
+	if selected_text == \"我全都要\":
+		for k in range(optionButton5.get_item_count()):
+			if k == 0:
+				continue
+			var selected_text_2 = optionButton5.get_item_text(k)
+			if options5[selected_text_2] in GameLogic.cur_Rewards:
+				continue
+			GameLogic.cur_Rewards.append(options5[selected_text_2])
+			GameLogic.call_Reward()
+		GameLogic.cur_Popularity_Level = 100
+		GameLogic.return_Popular(1,GameLogic.HomeMoneyKey)
+		GameLogic.cur_Gift = 0
+		return
+				
+				
 	if options5[selected_text] in GameLogic.cur_Rewards:
 		return  # 已有就不重复添加
 
