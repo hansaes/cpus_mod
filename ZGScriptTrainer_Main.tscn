@@ -1,0 +1,1864 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends CanvasLayer
+
+
+var key_name_to_code = {
+	\"KEY_0\" : 48,
+	\"KEY_1\" : 49,
+	\"KEY_2\" : 50,
+	\"KEY_3\" : 51,
+	\"KEY_4\" : 52,
+	\"KEY_5\" : 53,
+	\"KEY_6\" : 54,
+	\"KEY_7\" : 55,
+	\"KEY_8\" : 56,
+	\"KEY_9\" : 57,
+	\"KEY_A\" : 65,
+	\"KEY_AACUTE\" : 193,
+	\"KEY_ACIRCUMFLEX\" : 194,
+	\"KEY_ACUTE\" : 180,
+	\"KEY_ADIAERESIS\" : 196,
+	\"KEY_AE\" : 198,
+	\"KEY_AGRAVE\" : 192,
+	\"KEY_ALT\" : 16777240,
+	\"KEY_AMPERSAND\" : 38,
+	\"KEY_APOSTROPHE\" : 39,
+	\"KEY_ARING\" : 197,
+	\"KEY_ASCIICIRCUM\" : 94,
+	\"KEY_ASCIITILDE\" : 126,
+	\"KEY_ASTERISK\" : 42,
+	\"KEY_AT\" : 64,
+	\"KEY_ATILDE\" : 195,
+	\"KEY_B\" : 66,
+	\"KEY_BACK\" : 16777280,
+	\"KEY_BACKSLASH\" : 92,
+	\"KEY_BACKSPACE\" : 16777220,
+	\"KEY_BACKTAB\" : 16777219,
+	\"KEY_BAR\" : 124,
+	\"KEY_BASSBOOST\" : 16777287,
+	\"KEY_BASSDOWN\" : 16777289,
+	\"KEY_BASSUP\" : 16777288,
+	\"KEY_BRACELEFT\" : 123,
+	\"KEY_BRACERIGHT\" : 125,
+	\"KEY_BRACKETLEFT\" : 91,
+	\"KEY_BRACKETRIGHT\" : 93,
+	\"KEY_BROKENBAR\" : 166,
+	\"KEY_C\" : 67,
+	\"KEY_CAPSLOCK\" : 16777241,
+	\"KEY_CCEDILLA\" : 199,
+	\"KEY_CEDILLA\" : 184,
+	\"KEY_CENT\" : 162,
+	\"KEY_CLEAR\" : 16777228,
+	\"KEY_COLON\" : 58,
+	\"KEY_COMMA\" : 44,
+	\"KEY_CONTROL\" : 16777238,
+	\"KEY_COPYRIGHT\" : 169,
+	\"KEY_CURRENCY\" : 164,
+	\"KEY_D\" : 68,
+	\"KEY_DEGREE\" : 176,
+	\"KEY_DELETE\" : 16777224,
+	\"KEY_DIAERESIS\" : 168,
+	\"KEY_DIRECTION_L\" : 16777266,
+	\"KEY_DIRECTION_R\" : 16777267,
+	\"KEY_DIVISION\" : 247,
+	\"KEY_DOLLAR\" : 36,
+	\"KEY_DOWN\" : 16777234,
+	\"KEY_E\" : 69,
+	\"KEY_EACUTE\" : 201,
+	\"KEY_ECIRCUMFLEX\" : 202,
+	\"KEY_EDIAERESIS\" : 203,
+	\"KEY_EGRAVE\" : 200,
+	\"KEY_END\" : 16777230,
+	\"KEY_ENTER\" : 16777221,
+	\"KEY_EQUAL\" : 61,
+	\"KEY_ESCAPE\" : 16777217,
+	\"KEY_ETH\" : 208,
+	\"KEY_EXCLAM\" : 33,
+	\"KEY_EXCLAMDOWN\" : 161,
+	\"KEY_F\" : 70,
+	\"KEY_F1\" : 16777244,
+	\"KEY_F10\" : 16777253,
+	\"KEY_F11\" : 16777254,
+	\"KEY_F12\" : 16777255,
+	\"KEY_F13\" : 16777256,
+	\"KEY_F14\" : 16777257,
+	\"KEY_F15\" : 16777258,
+	\"KEY_F16\" : 16777259,
+	\"KEY_F2\" : 16777245,
+	\"KEY_F3\" : 16777246,
+	\"KEY_F4\" : 16777247,
+	\"KEY_F5\" : 16777248,
+	\"KEY_F6\" : 16777249,
+	\"KEY_F7\" : 16777250,
+	\"KEY_F8\" : 16777251,
+	\"KEY_F9\" : 16777252,
+	\"KEY_FAVORITES\" : 16777298,
+	\"KEY_FORWARD\" : 16777281,
+	\"KEY_G\" : 71,
+	\"KEY_GREATER\" : 62,
+	\"KEY_GUILLEMOTLEFT\" : 171,
+	\"KEY_GUILLEMOTRIGHT\" : 187,
+	\"KEY_H\" : 72,
+	\"KEY_HELP\" : 16777265,
+	\"KEY_HOME\" : 16777229,
+	\"KEY_HOMEPAGE\" : 16777297,
+	\"KEY_HYPER_L\" : 16777263,
+	\"KEY_HYPER_R\" : 16777264,
+	\"KEY_HYPHEN\" : 173,
+	\"KEY_I\" : 73,
+	\"KEY_IACUTE\" : 205,
+	\"KEY_ICIRCUMFLEX\" : 206,
+	\"KEY_IDIAERESIS\" : 207,
+	\"KEY_IGRAVE\" : 204,
+	\"KEY_INSERT\" : 16777223,
+	\"KEY_J\" : 74,
+	\"KEY_K\" : 75,
+	\"KEY_KP_0\" : 16777350,
+	\"KEY_KP_1\" : 16777351,
+	\"KEY_KP_2\" : 16777352,
+	\"KEY_KP_3\" : 16777353,
+	\"KEY_KP_4\" : 16777354,
+	\"KEY_KP_5\" : 16777355,
+	\"KEY_KP_6\" : 16777356,
+	\"KEY_KP_7\" : 16777357,
+	\"KEY_KP_8\" : 16777358,
+	\"KEY_KP_9\" : 16777359,
+	\"KEY_KP_ADD\" : 16777349,
+	\"KEY_KP_DIVIDE\" : 16777346,
+	\"KEY_KP_ENTER\" : 16777222,
+	\"KEY_KP_MULTIPLY\" : 16777345,
+	\"KEY_KP_PERIOD\" : 16777348,
+	\"KEY_KP_SUBTRACT\" : 16777347,
+	\"KEY_L\" : 76,
+	\"KEY_LAUNCH0\" : 16777304,
+	\"KEY_LAUNCH1\" : 16777305,
+	\"KEY_LAUNCH2\" : 16777306,
+	\"KEY_LAUNCH3\" : 16777307,
+	\"KEY_LAUNCH4\" : 16777308,
+	\"KEY_LAUNCH5\" : 16777309,
+	\"KEY_LAUNCH6\" : 16777310,
+	\"KEY_LAUNCH7\" : 16777311,
+	\"KEY_LAUNCH8\" : 16777312,
+	\"KEY_LAUNCH9\" : 16777313,
+	\"KEY_LAUNCHA\" : 16777314,
+	\"KEY_LAUNCHB\" : 16777315,
+	\"KEY_LAUNCHC\" : 16777316,
+	\"KEY_LAUNCHD\" : 16777317,
+	\"KEY_LAUNCHE\" : 16777318,
+	\"KEY_LAUNCHF\" : 16777319,
+	\"KEY_LAUNCHMAIL\" : 16777302,
+	\"KEY_LAUNCHMEDIA\" : 16777303,
+	\"KEY_LEFT\" : 16777231,
+	\"KEY_LESS\" : 60,
+	\"KEY_M\" : 77,
+	\"KEY_MACRON\" : 175,
+	\"KEY_MASCULINE\" : 186,
+	\"KEY_MEDIANEXT\" : 16777295,
+	\"KEY_MEDIAPLAY\" : 16777292,
+	\"KEY_MEDIAPREVIOUS\" : 16777294,
+	\"KEY_MEDIARECORD\" : 16777296,
+	\"KEY_MEDIASTOP\" : 16777293,
+	\"KEY_MENU\" : 16777262,
+	\"KEY_META\" : 16777239,
+	\"KEY_MINUS\" : 45,
+	\"KEY_MU\" : 181,
+	\"KEY_MULTIPLY\" : 215,
+	\"KEY_N\" : 78,
+	\"KEY_NOBREAKSPACE\" : 160,
+	\"KEY_NOTSIGN\" : 172,
+	\"KEY_NTILDE\" : 209,
+	\"KEY_NUMBERSIGN\" : 35,
+	\"KEY_NUMLOCK\" : 16777242,
+	\"KEY_O\" : 79,
+	\"KEY_OACUTE\" : 211,
+	\"KEY_OCIRCUMFLEX\" : 212,
+	\"KEY_ODIAERESIS\" : 214,
+	\"KEY_OGRAVE\" : 210,
+	\"KEY_ONEHALF\" : 189,
+	\"KEY_ONEQUARTER\" : 188,
+	\"KEY_ONESUPERIOR\" : 185,
+	\"KEY_OOBLIQUE\" : 216,
+	\"KEY_OPENURL\" : 16777301,
+	\"KEY_ORDFEMININE\" : 170,
+	\"KEY_OTILDE\" : 213,
+	\"KEY_P\" : 80,
+	\"KEY_PAGEDOWN\" : 16777236,
+	\"KEY_PAGEUP\" : 16777235,
+	\"KEY_PARAGRAPH\" : 182,
+	\"KEY_PARENLEFT\" : 40,
+	\"KEY_PARENRIGHT\" : 41,
+	\"KEY_PAUSE\" : 16777225,
+	\"KEY_PERCENT\" : 37,
+	\"KEY_PERIOD\" : 46,
+	\"KEY_PERIODCENTERED\" : 183,
+	\"KEY_PLUS\" : 43,
+	\"KEY_PLUSMINUS\" : 177,
+	\"KEY_PRINT\" : 16777226,
+	\"KEY_Q\" : 81,
+	\"KEY_QUESTION\" : 63,
+	\"KEY_QUESTIONDOWN\" : 191,
+	\"KEY_QUOTEDBL\" : 34,
+	\"KEY_QUOTELEFT\" : 96,
+	\"KEY_R\" : 82,
+	\"KEY_REFRESH\" : 16777283,
+	\"KEY_REGISTERED\" : 174,
+	\"KEY_RIGHT\" : 16777233,
+	\"KEY_S\" : 83,
+	\"KEY_SCROLLLOCK\" : 16777243,
+	\"KEY_SEARCH\" : 16777299,
+	\"KEY_SECTION\" : 167,
+	\"KEY_SEMICOLON\" : 59,
+	\"KEY_SHIFT\" : 16777237,
+	\"KEY_SLASH\" : 47,
+	\"KEY_SPACE\" : 32,
+	\"KEY_SSHARP\" : 223,
+	\"KEY_STANDBY\" : 16777300,
+	\"KEY_STERLING\" : 163,
+	\"KEY_STOP\" : 16777282,
+	\"KEY_SUPER_L\" : 16777260,
+	\"KEY_SUPER_R\" : 16777261,
+	\"KEY_SYSREQ\" : 16777227,
+	\"KEY_T\" : 84,
+	\"KEY_TAB\" : 16777218,
+	\"KEY_THORN\" : 222,
+	\"KEY_THREEQUARTERS\" : 190,
+	\"KEY_THREESUPERIOR\" : 179,
+	\"KEY_TREBLEDOWN\" : 16777291,
+	\"KEY_TREBLEUP\" : 16777290,
+	\"KEY_TWOSUPERIOR\" : 178,
+	\"KEY_U\" : 85,
+	\"KEY_UACUTE\" : 218,
+	\"KEY_UCIRCUMFLEX\" : 219,
+	\"KEY_UDIAERESIS\" : 220,
+	\"KEY_UGRAVE\" : 217,
+	\"KEY_UNDERSCORE\" : 95,
+	\"KEY_UNKNOWN\" : 33554431,
+	\"KEY_UP\" : 16777232,
+	\"KEY_V\" : 86,
+	\"KEY_VOLUMEDOWN\" : 16777284,
+	\"KEY_VOLUMEMUTE\" : 16777285,
+	\"KEY_VOLUMEUP\" : 16777286,
+	\"KEY_W\" : 87,
+	\"KEY_X\" : 88,
+	\"KEY_Y\" : 89,
+	\"KEY_YACUTE\" : 221,
+	\"KEY_YDIAERESIS\" : 255,
+	\"KEY_YEN\" : 165,
+	\"KEY_Z\" : 90
+}
+var IsLoadConfig = false
+var IsBlockLeaderBoard = false
+
+var CanExpMult = false
+var ExpMult = 5.0
+var CanPopularityMult = false
+var PopularityMult = 2.0
+var KeyCode = KEY_F9
+
+var version = \"1.1.0\"
+var mod_path
+var config = ConfigFile.new()
+var configpath
+var buytime
+var isremove = false
+
+var dragging = false
+var drag_start = Vector2()
+var panel_rect
+var onece = 0
+var newreward =false
+onready var CHALLENGE_TSCN = preload(\"res://TscnAndGd/UI/InGame/ChallengeUI.tscn\")
+onready var DEVIL_TSCN = preload(\"res://TscnAndGd/Main/NPC/Devil_Update.tscn\")
+onready var _RewardTSCN = preload(\"res://TscnAndGd/Objects/Home/ChooseMenu.tscn\")
+
+onready var dragpanel = $BackgroundPanel/DragPanelContainer
+onready var optionButton1 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/OptionButton
+onready var optionButton2 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/OptionButton2
+onready var optionButton3 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton3
+onready var optionButton4 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton4
+onready var optionButton5 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton5
+onready var optionButton6 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton6
+onready var label15 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Label15
+onready var TextEdit1 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/TextEdit
+#	my_scene = get_tree().get_root().find_node(\"MyScene\", true, false)
+onready var Page1Container = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container
+onready var Page2Container = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container
+
+
+var current_page_index = 0
+var pages = []  # 用来存放页面节点引用
+var DEBUG = true
+var xixi = true
+
+# 每日事件
+var EventConfig = {}
+func _ready() -> void:
+	for name in GameLogic.get_signal_connection_list(\"GameOver\"):
+		if name.target != self: # 假设self是你想要保留的连接
+			GameLogic.disconnect(\"GameOver\", name.target, name.method)
+			isremove = true
+	GameLogic.connect(\"GameOver\", self ,\"My_GameOver\")
+	GameLogic.connect(\"Popularity\",self,\"MultPopularity\")
+	#for name in GameLogic.get_signal_connection_list(\"GameOver\"):
+	#	print(\"Signal:\",name)
+	var background_panel = $BackgroundPanel
+	
+	# 修改透明度
+	background_panel.modulate = Color(1, 1, 1, 1)
+	
+	if not DEBUG:
+		$BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button6.hide()
+		
+		$BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button12.hide()
+		TextEdit1.hide()
+	if not xixi:
+		optionButton5.hide()
+		$BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button11.hide()
+		$BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button13.hide()
+	$BackgroundPanel.hide()
+
+	$Panel.hide()
+	
+	pages = [ Page1Container, Page2Container ]
+	#Page2Container.hide()
+	# 默认只显示第一个页面，隐藏其他页面
+	for i in range(pages.size()):
+		pages[i].visible = (i == current_page_index)
+	
+	
+	if SteamLogic.BlackList:
+		if SteamLogic.STEAM_ID in SteamLogic.BlackList:
+			ShowTip(\"你的账号已被封禁，无法访问排行榜！\", 7)
+	
+	
+	optionButton1_add()
+	optionButton2_add()
+	optionButton5_add()
+	optionButton6_add()
+
+var options1 = {
+		\"我全都要\":\"我全都要\",
+		\"降解纸杯+\":\"非完美出杯COMBO+\",
+		\"吸管+\":\"极限出杯简化+\",
+		\"隔温杯套+\":\"快速出杯简化+\",
+		\"品牌杯+\":\"跳单补偿+\",
+		\"一次性手套+\":\"一次性手套+\",
+		\"小白鞋+\":\"小白鞋+\",
+		\"防滑靴+\":\"防滑靴+\",
+		\"学生拖鞋+\":\"学生拖鞋+\",
+		\"小翅膀+\":\"小翅膀+\",
+		\"工作名牌+\":\"工作名牌+\",
+		\"员工帽+\":\"员工帽+\",
+		\"防沫口罩+\":\"防沫口罩+\",
+		\"耳麦+\":\"耳麦+\",
+		\"公交卡+\":\"提前上班+\",
+		\"发套+\":\"加班洗脑+\",
+		\"延时手表+\":\"自愿加班+\",
+		\"耳罩+\":\"耳罩+\",
+		\"兔耳发卡+\":\"兔耳发卡+\",
+		\"人字拖+\":\"冥思+\",
+		\"口罩+\":\"回光返照+\",
+		\"脏脏围裙+\":\"COMBO声望+\",
+		\"女仆围裙+\":\"跳单声望+\",
+		\"焦急围裙+\":\"快出声望+\",
+		\"拖延围裙+\":\"极限好评+\",
+		\"麦克风+\":\"小蜜蜂+\",
+		\"搬货手套+\":\"合理堆放+\",
+		\"垃圾分解+\":\"垃圾分解+\",
+		\"防毒面具+\":\"防毒面具+\",
+		\"工作手套+\":\"工作手套+\",
+		\"绝缘手套+\":\"绝缘手套+\",
+		\"尖爪手套+\":\"尖爪手套+\",
+		\"橡胶手套+\":\"橡胶手套+\",
+		\"防烫手套+\":\"防烫手套+\",
+		#\"纸尿裤+\",
+	}
+# 添加物品选项
+func optionButton1_add():
+	
+
+	for item in options1.keys():
+		optionButton1.add_item(item)
+	#optionButton1.add_item(\"高速配送+\")
+
+var options5 = {
+	\"极速钢刷\":\"无压快出\",
+	\"平行时间\":\"快慢有度\",
+	\"照片墙\":\"小费倍率COMBO\",
+	\"连击达人\":\"COMBO上限\",
+	\"爆炸灯笼\":\"暴击COMBO\",
+	\"准时达\":\"快出COMBO\",
+	\"极限手段\":\"极限COMBO\",
+	\"跳跃连击\":\"跳单COMBO\",
+	\"冰点连击\":\"无压COMBO\",
+	\"高强链接\":\"高压不断连\",
+	\"暴力营销\":\"高压小费\",
+	\"快乐心情\":\"轻轻松松\",
+	\"极限榨取\":\"极限小费\",
+	\"高速奖励\":\"快出小费\",
+	\"乱序叫号\":\"连续跳单小费\",
+	\"平稳心电\":\"平稳心电\",
+	\"高压灭蚊灯\":\"压力加价\",
+	\"速销冠军\":\"连续快出\",
+	\"连续跳票\":\"跳单累计\",
+	\"无序穿插\":\"跳单连续\",
+	\"慢工细活\":\"慢工细活\",
+	\"时间管理\":\"极限累计\",
+	\"争分夺秒\":\"高压快出\",
+	\"舒适圈外\":\"舒适圈外\",
+	\"擦汗纸巾\":\"高压跳单\",
+	#\"压力满满\":\"压力满满\",(显示为问号卡无效果)
+	#\"自我调节\":\"自我调节\",(显示为问号卡无效果)
+	\"精神寄托\":\"精神寄托\",
+	\"免责插队\":\"无压跳单\",
+	\"泄压极救\":\"无压极限\",
+	#\"出杯减压\":\"出杯减压\",(显示为冰点连击图案但无描述文字)
+
+	\"好运锦鲤\":\"跳单暴击\",
+	#\"不找零\":\"不找零\", (显示为拒绝找零卡面但无描述文字)
+	\"捡好运\":\"暴击原价\",
+	\"幸运结\":\"快出暴击\",
+	\"命运之愿\":\"暴击减压\",
+	\"肾上腺素\":\"肾上腺素\",
+	\"图穷匕见\":\"极限暴击\",
+				 \"品牌杯+\":\"跳单出杯COMBO+\",
+	#\"提前开店声望+\":\"提前开店声望+\",(显示为问号卡)
+	#\"客桌耐心+\":\"客桌耐心+\",(显示为问号卡)
+	#\"新鲜制作+\":\"新鲜制作+\",(显示为问号卡)
+	#\"排队+\":\"排队+\",(显示为两个小人站在一起卡)
+	#\"安静等待+\":\"安静等待+\",(显示为问号卡)
+	#\"天然甜+\":\"天然甜+\",(显示为白卡)
+	#\"味觉丧失+\":\"味觉丧失+\",(显示为问号卡)
+	#\"未下单COMBO+\":\"未下单COMBO+\",(显示为收银机卡)
+	#\"未点单COMBO+\":\"未点单COMBO+\",(显示为收银机卡)
+	#\"货箱回收+\":\"货箱回收+\",(显示为问号卡)
+	#\"新增雪克杯+\":\"新增雪克杯+\",(显示为雪克杯卡)
+	\"福气到+\":\"暴击率提升+\",
+	\"完美碧玉+\":\"出手阔绰+\",
+	\"发财鞭炮+\":\"保底暴击+\",
+	\"连串铜币+\":\"连续暴击+\",
+	\"暴击纸扇+\":\"暴击增强+\",
+	\"刮刮乐+\":\"开盖中奖+\",
+	#\"关卡暴击+\":\"关卡暴击+\",(显示为问号卡)
+	\"畅饮爽+\":\"价格上调+\",
+	\"管吃饱+\":\"高价小料+\",
+	\"透心凉+\":\"加冰加价+\",
+	\"七分糖+\":\"加糖加价+\",
+	\"来者不拒+\":\"来者不拒+\",
+	\"年度爆款+\":\"指定饮品+\",
+	\"大满贯+\":\"多种小料+\",
+	#\"客桌小费+\":\"客桌小费+\",(显示为问号卡)
+	#\"完美收拾单价+\":\"完美收拾单价+\",(显示为问号卡)
+	#\"最低消费+\":\"最低消费+\",(显示为问号卡)
+	\"垃圾回收+\":\"垃圾回收+\",
+	\"排队付费+\":\"排队付费+\",
+	\"小料试吃+\":\"推荐小料+\",
+	\"营业执照+\":\"需加小费+\",
+	#\"完美收拾收入+\":\"完美收拾收入+\",(显示为完美一天卡,但无文字描述)
+	\"慷慨花环+\":\"小费提升+\",
+	#\"完美COMBO+\":\"完美COMBO+\",(显示为照片墙卡,但无文字描述)
+	\"零花钱+\":\"清点COMBO+\",
+	\"永生花+\":\"COMBO指示器+\",
+	\"取票器+\":\"COMBO增量+\",
+	#\"COMBO上限+\":\"COMBO上限+\",(显示为问号卡)
+	\"飞来横财+\":\"额外COMBO+\",
+	\"猪猪罐+\":\"小费COMBO+\",
+	#\"加糖COMBO+\":\"加糖COMBO+\",(显示为问号卡)
+	\"开业气球+\":\"初始COMBO+\",
+	\"VIP通道+\":\"跳单加价+\",
+	\"安抚蛋糕+\":\"跳单安抚+\",
+	\"包罗万象+\":\"交替贩卖+\",
+	\"被迫跳单+\":\"被迫跳单+\",
+	\"专业代购+\":\"完美跳单+\",
+	\"早餐毛巾+\":\"提前营业+\",
+	\"免洗消毒+\":\"快出加价+\",
+	\"摇摆四叶草+\":\"快出延时+\",
+	\"神速+\":\"神速+\",
+	\"提速杯刷+\":\"全天快速+\",
+	#\"完美快出+\":\"完美快出+\",(显示为问号卡)
+	\"步数红包+\":\"移动收入+\",
+	\"爆单票叉+\":\"爆单+\",
+	\"耐心抹布+\":\"极限出杯+\",
+	\"加班加小费+\":\"加班加小费+\",
+	\"饥饿营销+\":\"饥饿营销+\",
+	\"绝对极限+\":\"绝对极限+\",
+	\"心理战+\":\"极限加价+\",
+	\"自检狂+\":\"加压+\",
+	\"洗脑音响+\":\"高压洗脑+\",
+	\"招财猫+\":\"加班加单价+\",
+	\"排班表+\":\"高压加价+\",
+	\"勉强微笑+\":\"绝对高压+\",
+	\"碰瓷+\":\"高压额外+\",
+	#\"压力加价+\":\"压力加价+\",(显示为问号卡)
+	\"黄牛票+\":\"催单收入+\",
+	\"流浪捐助箱+\":\"高额小费+\",
+	\"陪伴玩偶+\":\"轻松增价+\",
+	\"负压雨伞+\":\"负压力+\",
+	\"内卷饭碗+\":\"忽视压力+\",
+	\"超负荷小窝+\":\"超负荷+\",
+	\"放平心态+\":\"钢丝刷+\",
+	#\"休息+\":\"休息+\"(显示为问号卡)
+}
+
+var Event_list = [
+	\"招聘点单++\",
+	\"招聘保洁++\",
+	\"招聘搬运++\",
+	\"招聘清洁++\",
+	\"随机招聘++\",
+	\"随机升级++\",
+	\"资金补助++\",
+	\"免水费\",
+	\"免电费\",
+	\"免房租\",
+	\"免工资\",
+	\"免水电\",
+	\"大免单\",
+	\"进货折扣++\",
+	\"充分休息++\",
+	\"聚餐++\",
+	\"销售员+\",
+	\"点单员+\",
+	\"调整+\",
+	\"穿越\",
+	\"搬运\",
+	\"加速\",
+	\"动员+\",
+	\"手速\",
+	\"顾客加速\",
+	\"抗压+\",
+	\"无压\",
+	\"排队等待\",
+	\"等餐+\",
+	\"暴击日\",
+	\"连击日\",
+	\"声望日++\",
+	\"无冰日\",
+	\"无糖日\",
+	\"加冰日\",
+	\"加糖日\",
+	\"点小料+\",
+	\"点便宜\",
+	\"点昂贵\",
+	\"开店长队\",
+	\"关店长队\",
+	\"换饮品\",
+	\"换小料\",
+	\"去代价\",
+	\"随机升级奖励\",
+]
+
+#添加恶魔契约
+func optionButton6_add():
+	
+	for event in Event_list:
+		optionButton6.add_item(event)
+
+# 添加礼物选项
+func optionButton5_add():
+
+	for item in options5.keys():
+		optionButton5.add_item(item)
+		
+#添加顾客
+func optionButton2_add():
+	optionButton2.add_item(\"普通人\")
+	optionButton2.add_item(\"混混\")
+	optionButton2.add_item(\"玻璃瓶\")
+	optionButton2.add_item(\"探店客\")
+	optionButton2.add_item(\"插队客\")
+	optionButton2.add_item(\"批评家\")
+	optionButton2.add_item(\"学咖族\")
+
+var added_items = {}
+func optionButton4_add():
+	if GameLogic.cur_Day == 1 and GameLogic.SPECIALLEVEL_Int:
+		added_items = {}
+	if GameLogic.GameUI:
+		var machines_base = [
+				\"果糖机\",
+				\"杯架\",
+				\"垃圾桶\"
+		]
+		var machines = [
+			\"榨汁机\", 
+			\"切块机\", 
+			\"气泡水机\",
+			\"软饮机\", 
+			\"封盖机\", 
+			\"咖啡机\", 
+			\"制冰机\", 
+			\"蒸汽机\", 
+			\"电磁炉\", 
+			\"茶桶\",
+			\"破壁机\"
+		]
+		for machine_name in machines_base:
+			if not GameLogic.cur_Rewards.has(machine_name + \"升级+\") :
+				if not added_items.has(machine_name):
+					optionButton4.add_item(machine_name)
+					added_items[machine_name] = true
+			else:
+				if added_items.has(machine_name):
+					added_items.erase(machine_name)
+		if GameLogic.cur_levelInfo.has(\"Machine\"):
+			for machine_name in machines:
+				if GameLogic.cur_levelInfo.Machine.has(machine_name):
+					if  not GameLogic.cur_Rewards.has(machine_name + \"升级+\") :
+						if not added_items.has(machine_name):
+							optionButton4.add_item(machine_name)
+							added_items[machine_name] = true
+					else:
+						if added_items.has(machine_name):
+							added_items.erase(machine_name)
+				else:
+					if added_items.has(machine_name):
+						added_items.erase(machine_name)
+						
+		for index in range(optionButton4.get_item_count()):
+			if not added_items.has(optionButton4.get_item_text(index)):
+				optionButton4.remove_item(index)
+					
+#	if optionButton4.get_item_count() == 0:
+#		# 先检查是否已有提示（通过最后一次添加的内容）
+#		last_index = optionButton4.get_item_count() - 1
+#		if last_index < 0 or optionButton4.get_item_text(last_index) != \"暂无可升级设备\":
+#			optionButton4.add_item(\"暂无可升级设备\")
+#	# 在添加机器后直接判断
+#	
+#		# 先检查是否已有提示（通过最后一次添加的内容）
+#		
+
+func LoadConfig(path) -> void:
+	mod_path = path
+	configpath = mod_path.plus_file(\"mod.cfg\")
+	config.load(configpath)
+	
+	$BackgroundPanel/DragPanelContainer/TitleLable.text = \"杯杯倒满 内置修改器 V\" + version
+	
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/ExpCheckBox\".pressed = config.get_value(\"Setting\",\"Exp\",false)
+	var tmp = float(config.get_value(\"Setting\",\"ExpMult\", 5.0))
+	if tmp < 1:
+		tmp = 1
+	elif tmp > 10:
+		tmp = 10
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/ExpHSlider\".value = tmp
+	self.Exp_HSlider_drag_ended(tmp)
+	
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityCheckBox\".pressed = config.get_value(\"Setting\",\"Popularity\",false)
+	tmp = float(config.get_value(\"Setting\",\"PopularityMult\", 2.0))
+	if tmp < 1:
+		tmp = 1
+	elif tmp > 5:
+		tmp = 5
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityHSlider\".value = tmp
+	self.PopularityHSlider_value_changed(tmp)
+	
+	KeyCode = key_name_to_code.get(config.get_value(\"Setting\",\"ShowTrainer\", \"KEY_F9\"),KEY_F9)
+
+func My_GameOver(_Complete_Bool, _Reward):
+	if CanExpMult:
+		if SteamLogic.IsJoin:
+			var _PlayerID = SteamLogic.LevelDic.Character
+			if !GameLogic.DEMO_bool:
+				print(\"经验：\" , SteamLogic.LevelDic[\"EXP\"])
+				SteamLogic.LevelDic[\"EXP\"] *= ExpMult
+				print(\"修改后经验：\" , SteamLogic.LevelDic[\"EXP\"])
+		else:
+			if GameLogic.Save.statisticsData[\"Character\"].has(GameLogic.player_1P_ID):
+				if !GameLogic.DEMO_bool:
+					print(\"房主经验：\" , GameLogic.level_EXP_Base)
+					GameLogic.level_EXP_Base *= ExpMult
+					print(\"房主修改后经验：\" , GameLogic.level_EXP_Base)
+					
+	
+	if GameLogic.GameUI.GameEndUI and isremove:
+		GameLogic.GameUI.GameEndUI._GameOver_Logic(_Complete_Bool, _Reward)
+		print(\"执行原Gameover的命令\")
+	
+func MultPopularity(_Value):
+	if CanPopularityMult:
+		var v = _Value * (PopularityMult - 1)
+		if v > 0:
+			GameLogic.cur_Popularity += v;
+			print(\"额外增加声望:\", v)
+			print(\"当前声望:\", GameLogic.cur_Popularity)
+			if GameLogic.GameUI:
+				GameLogic.GameUI.Popularity._SYCN(_Value)
+			if GameLogic.cur_Gift > 5:
+				GameLogic.cur_Gift = 5
+	
+func return_LoadJson(_Path):
+	var _File = File.new()
+	if _File.file_exists(_Path):
+		_File.open(_Path,File.READ)
+		var _Json = parse_json(_File.get_as_text())
+		return _Json
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed:
+				panel_rect = Rect2(dragpanel.rect_global_position, dragpanel.rect_size)
+				if panel_rect.has_point(event.position):
+					dragging = true
+					drag_start = event.position
+			else:
+				dragging = false
+	elif event is InputEventMouseMotion:
+		if dragging:
+			var drag_end = event.position
+			var drag_distance = drag_end - drag_start
+			$BackgroundPanel.rect_position += drag_distance
+			drag_start = drag_end
+			panel_rect = Rect2(dragpanel.rect_global_position, dragpanel.rect_size)
+	elif event is InputEventKey:
+		if event.pressed and event.scancode == KeyCode:
+			# Toggle console.
+			if $BackgroundPanel.visible:
+				dragging = false
+			$BackgroundPanel.visible = not $BackgroundPanel.visible
+			
+			# 更新负面列表
+			if GameLogic.cur_Challenge.size() != 0:
+				optionButton3.clear()
+				for item in GameLogic.cur_Challenge:
+					optionButton3.add_item(item)
+			optionButton4_add()
+		if $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/CheckBox4.pressed:
+			if event.pressed and event.scancode == key_name_to_code.get(\"KEY_F8\"):
+				_on_Button4_pressed()
+			
+	
+# 增加绿钞
+func AddMoney():
+	
+	GameLogic.call_MoneyHomeChange(100000,GameLogic.HomeMoneyKey)
+	#GameLogic.call_MoneyHomeChange(100000)
+	#GameLogic.Save.statisticsData[\"Count_HomeMoney\"] += 1000
+	print(\"当前金钱:\",GameLogic.cur_money_home * GameLogic.HomeMoneyKey)
+	
+# 增加金币
+func AddInGameMoney():
+	GameLogic.call_MoneyChange(10000,GameLogic.HomeMoneyKey)
+	#GameLogic.call_MoneyChange(10000)
+	#GameLogic.call_MoneyOther_Change(10000,GameLogic.HomeMoneyKey)
+	print(\"当前金钱:\",GameLogic.cur_money)
+
+# 增加重抽币
+func AddReDrawCoin():
+	GameLogic.cur_ReDrawCoin += 10
+	GameLogic.call_ReDrawCoinChange()
+	print(\"当前重抽币:\", GameLogic.cur_ReDrawCoin)
+
+# 修改经验
+func Exp_CheckBox_Toggled(button_pressed):
+	CanExpMult = button_pressed
+	if configpath:
+		config.set_value(\"Setting\",\"Exp\", CanExpMult)
+		config.save(configpath)
+
+func Exp_HSlider_drag_ended(value_changed):
+	ExpMult = value_changed
+	if configpath:
+		config.set_value(\"Setting\",\"ExpMult\", value_changed)
+		config.save(configpath)
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/ExpLabel\".text = str(value_changed) + \"倍\"
+
+func PopularityCheckBox_toggled(button_pressed):
+	CanPopularityMult = button_pressed
+	if configpath:
+		config.set_value(\"Setting\",\"Popularity\", CanPopularityMult)
+		config.save(configpath)
+
+func PopularityHSlider_value_changed(value):
+	PopularityMult = value
+	if configpath:
+		config.set_value(\"Setting\",\"PopularityMult\", value)
+		config.save(configpath)
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityLabel\".text = str(value) + \"倍\"
+
+
+# 减少压力
+func Pressure_Set():
+	GameLogic.call_Pressure_Mult(-100)
+	#GameLogic.Save.statisticsData[\"Character\"][GameLogic.player_1P_ID].UseCount += 1
+	#GameLogic.Save.statisticsData[\"Character\"][GameLogic.player_1P_ID].MultplayCount += 1
+	#GameLogic.Save.statisticsData[\"Count_NetVictories\"] += 1
+	#GameLogic.call_save()
+
+func GameTime_CheckBox_toggled(button_pressed):
+	if GameLogic.GameUI:
+		if SteamLogic.IsMultiplay and !SteamLogic.LOBBY_IsMaster:
+			return
+		else:
+			if button_pressed:
+				GameLogic.GameUI._Timer.stop()
+				GameLogic.GameUI._passerTimer.stop()
+				GameLogic.GameUI._customerTimer.stop()
+				buytime = GameLogic.GameUI.CurTime
+				$Timer.start()
+			else:
+				GameLogic.GameUI._Timer.start()
+				GameLogic.GameUI._passerTimer.start()
+				GameLogic.GameUI._customerTimer.start()
+				buytime = null
+				$Timer.stop()
+
+func PauseBuy_Timer_timeout():
+	if buytime:
+		buytime += 0.1
+		GameLogic.Buy.call_check(buytime)
+
+func UpdateTimer():
+	if not IsLoadConfig and mod_path and GameLogic and GameLogic.Config:
+		var New_FormulaConfig = return_LoadJson(mod_path.plus_file(\"Config/ExtraFormulaConfig.json\"))
+		if New_FormulaConfig:
+			for key in New_FormulaConfig.keys():
+				GameLogic.Config.FormulaConfig[key] = New_FormulaConfig[key]
+			IsLoadConfig = true
+			print(\"加载额外饮品成功！\")
+		var New_Trans = return_LoadJson(mod_path.plus_file(\"Config/ExtraCardTranslation.json\"))
+		if New_Trans:
+			for key in New_Trans.keys():
+				GameLogic.Config.CardTranslation[key] = New_Trans[key]
+			IsLoadConfig = true
+			print(\"加载额外名称成功！\")
+			
+		if IsLoadConfig:
+			GameLogic.GlobalData.call_Translation_Set(str(TranslationServer.get_locale()))
+			print(\"重置字典成功！\")
+
+	if IsLoadConfig and not IsBlockLeaderBoard:
+		IsBlockLeaderBoard = BlockLeaderBoard()
+		
+	pass # Replace with function body.
+
+func ShowTip(text : String, showtime : float = 2.0):
+	$Panel/TipLabel.text = text
+	$Panel.show()
+	# 等待2秒后隐藏弹窗
+	yield(get_tree().create_timer(showtime), \"timeout\")
+	$Panel.hide()
+	
+func BlockLeaderBoard() -> bool:
+	if SteamLogic.BlackList:
+		if not SteamLogic.STEAM_ID in SteamLogic.BlackList:
+			SteamLogic.BlackList.append(SteamLogic.STEAM_ID)
+			ShowTip(\"成功屏蔽排行榜！\", 7)
+		else:
+			ShowTip(\"你的账号已被封禁，无法访问排行榜！\", 7)
+		return true
+	return false
+	
+# 添加物品
+func _on_Button3_pressed():
+
+	#var _RAND = GameLogic.return_randi() % RewardList.size()
+	var select_id = optionButton1.get_selected_id()
+	if select_id != -1 : 
+		var item_name = optionButton1.get_item_text(select_id)
+		#判断当前是否存在
+		if item_name == \"我全都要\":
+			for k in range(optionButton1.get_item_count()):
+				if k == 0:
+					continue
+				var selected_text = optionButton1.get_item_text(k)
+				create_reward(options1[selected_text])
+		else:
+			create_reward(options1[item_name])
+
+# 创建物品
+func create_reward(item_name):
+	if GameLogic.cur_Rewards.has(item_name):
+		return 
+	var Ysort_Update = GameLogic.Staff.LevelNode.get_node(\"YSort/Updates\")
+	var _Reward = _RewardTSCN.instance()
+	_Reward.name = str(GameLogic.return_randi())
+	var _pointV2 = Vector2(0, 0)
+	_Reward.position = _pointV2
+	Ysort_Update.add_child(_Reward)
+	GameLogic.cur_Rewards.append(item_name)
+	GameLogic.call_Reward()
+	_Reward.RewardID = item_name
+	if SteamLogic.IsMultiplay and SteamLogic.LOBBY_IsMaster:
+		SteamLogic.call_puppet_node_sync(GameLogic.Staff.LevelNode, \"_Puppet_Create_Item\", [\"ChooseMenu\", _Reward.name, _pointV2, _Reward.RewardID])
+		SteamLogic.call_puppet_node_sync(_Reward, \"call_puppet_logic\", [GameLogic.cur_BuyNum])
+
+	_Reward._del()
+	
+
+
+
+			#SteamLogic.call_master_node_sync(_Reward, \"_Buy_Logic\")
+#		if SteamLogic.IsMultiplay and SteamLogic.LOBBY_IsMaster:
+#			SteamLogic.call_puppet_node_sync(self, \"call_puppet_logic\", [GameLogic.cur_BuyNum])
+
+# 添加顾客
+func _on_Button4_pressed():
+	var select_id = optionButton2.get_selected_id()
+	var selected_index = optionButton2.get_selected()
+	if selected_index != -1:
+		# 获取当前选中项的文本
+		var selected_text = optionButton2.get_item_text(selected_index)
+		# 使用 if - elif - else 进行判断
+		if selected_text == \"普通人\":
+			GameLogic.NPC.call_customer(GameLogic.HomeMoneyKey)
+		elif selected_text == \"混混\":
+			GameLogic.NPC.call_Thug(GameLogic.HomeMoneyKey)
+		elif selected_text == \"玻璃瓶\":
+			GameLogic.NPC.call_GlassBottle(GameLogic.HomeMoneyKey)
+		elif selected_text == \"探店客\":
+			GameLogic.NPC.call_Uper(GameLogic.HomeMoneyKey)
+		elif selected_text == \"插队客\":
+			GameLogic.NPC.call_Cupmother(GameLogic.HomeMoneyKey)
+		elif selected_text == \"批评家\":
+			GameLogic.NPC.call_Critic(GameLogic.HomeMoneyKey)
+		elif selected_text == \"学咖族\":
+			GameLogic.NPC.call_Studyholics(GameLogic.HomeMoneyKey)
+		else:
+			print(\"选中了未定义的选项：\", selected_text)
+	else:
+		print(\"没有选中任何选项\")
+
+
+# 移除负面
+func _on_Button5_pressed():
+	var _TSCN = CHALLENGE_TSCN.instance()
+	var _NAME: String = str(_TSCN.get_instance_id())
+	_TSCN.name = _NAME
+	SteamLogic.call_puppet_node_sync(GameLogic.Staff.LevelNode, \"call_puppet_Challenge\", [_NAME])
+	GameLogic.Staff.LevelNode.add_child(_TSCN)
+	if GameLogic.GameUI:
+		var select_id = optionButton3.get_selected_id()
+		var selected_index = optionButton3.get_selected()
+		if selected_index != -1:
+		# 获取当前选中项的文本
+			var selected_text = optionButton3.get_item_text(selected_index)
+			GameLogic.cur_Challenge.erase(selected_text)
+			optionButton3.remove_item(selected_index)
+			if SteamLogic.IsMultiplay and SteamLogic.LOBBY_IsMaster:
+				SteamLogic.call_puppet_node_sync(_TSCN, \"call_puppet_Challenge\", [\"\", GameLogic.cur_Challenge])
+
+# 一键移除
+func _on_Button9_pressed():
+	var _TSCN = CHALLENGE_TSCN.instance()
+	var _NAME: String = str(_TSCN.get_instance_id())
+	_TSCN.name = _NAME
+	SteamLogic.call_puppet_node_sync(GameLogic.Staff.LevelNode, \"call_puppet_Challenge\", [_NAME])
+	GameLogic.Staff.LevelNode.add_child(_TSCN)
+	for index in range(optionButton3.get_item_count()):
+		if index != -1:
+		# 获取当前选中项的文本
+			var selected_text = optionButton3.get_item_text(index)
+			GameLogic.cur_Challenge.erase(selected_text)
+	if SteamLogic.IsMultiplay and SteamLogic.LOBBY_IsMaster:
+		SteamLogic.call_puppet_node_sync(_TSCN, \"call_puppet_Challenge\", [\"\", GameLogic.cur_Challenge])
+	optionButton3.clear()
+
+
+
+#func Buy_item_toggled(button_pressed):
+#	if button_pressed:
+#		$TimerCheck.start()
+#	else:
+#		$TimerCheck.stop()
+
+
+
+
+func _on_CheckBox4_toggled(button_pressed):
+	pass
+	#var SayLabel = AvatarNode.get_node(\"SayNode/SayLabel\")
+
+
+func _on_Button6_pressed():
+	#GameLogic.GameUI.CurTime = 20
+	TextEdit1.text += \"启动\"
+	show_costume_config()
+
+#var ysort_update = get_node_or_null(\"/root/Main/YSort/Updates\")  # 确保路径正确
+#if ysort_update:
+#    for devil in ysort_update.get_children():
+#        if devil.has_method(\"call_init\"):
+#            devil.call(\"call_init\")  # 直接调用 Devil 的方法
+var devil_path: NodePath = \"\"
+
+
+func find_and_store_devil():
+	var Ysort_Update = GameLogic.Staff.LevelNode.get_node(\"YSort/Updates\")
+	if Ysort_Update:
+		#GameLogic.call_Info(1, \"尖爪手套+\")
+		for devil in Ysort_Update.get_children():
+			if devil.has_method(\"call_Master_Buy\"):
+				#GameLogic.call_Info(1, \"橡胶手套+\")
+				devil_path = devil.get_path()  # ✅ 存储 Devil 的路径
+				#print(\"Devil 路径:\", devil_path)
+				#return devil_path  # 找到就返回
+#	else:
+#		GameLogic.call_Info(1, \"尖爪手套\")
+
+
+# 升级设备
+func _on_Button7_pressed(item_text = null):
+	#var _DEVIL = DEVIL_TSCN.instance()
+#	if _DEVIL.has_method(\"call_Master_Buy\"):
+#		GameLogic.call_Info(1, \"尖爪手套+\")
+#		#devil.call(\"call_Master_Buy\", 0, \"果糖机升级+\")
+#	else:
+#		GameLogic.call_Info(1, \"尖爪手套\")
+	find_and_store_devil()
+	if not devil_path:
+		var Ysort_Update = GameLogic.Staff.LevelNode.get_node(\"YSort/Updates\")
+		var _DEVIL = DEVIL_TSCN.instance()
+		_DEVIL.name = str(GameLogic.return_randi())
+		var _DEVILPOS = Vector2(0, 0)
+		_DEVIL.position = _DEVILPOS
+		Ysort_Update.add_child(_DEVIL)
+		_DEVIL.call_init()
+		if SteamLogic.IsMultiplay and SteamLogic.LOBBY_IsMaster:
+			SteamLogic.call_puppet_node_sync(GameLogic.Staff.LevelNode, \"_Puppet_Create_Item\", [\"Devil\", _DEVIL.name, _DEVILPOS, null])
+		find_and_store_devil()
+	var devil = get_node_or_null(devil_path)  # ✅ 通过路径获取 Devil
+#
+#	if devil:
+#		GameLogic.call_Info(1, \"绝缘手套+\")
+#	else:
+#		GameLogic.call_Info(1, \"绝缘手套\")
+	if GameLogic.GameUI:
+		var select_id = optionButton4.get_selected_id()
+		var selected_index = optionButton4.get_selected()
+		if selected_index != -1:
+			var selected_text = optionButton4.get_item_text(selected_index)
+			if selected_text != \"新增桌台\":
+				if devil.has_method(\"call_Master_Buy\"):
+#					_DEVIL.call(\"call_Master_Buy\", 0, selected_text + \"升级+\")
+					if item_text:
+						selected_text = item_text
+					GameLogic.cur_Rewards.append(selected_text + \"升级+\")
+					GameLogic.call_Reward()
+					#SteamLogic.call_puppet_set_sync(GameLogic, \"cur_Rewards\", GameLogic.cur_Rewards)
+					SteamLogic.call_puppet_node_sync(devil, \"call_BuyEnd_puppet\", [selected_text + \"升级+\"])
+					devil_path = \"\"
+					#GameLogic.call_Info(1, \"兔耳发卡+\")
+					#var Ysort_Update = GameLogic.Staff.LevelNode.get_node(\"YSort/Updates\")
+#				if devil_path != \"\":
+#					var devil = get_node_or_null(devil_path)  # ✅ 通过路径获取 Devil
+#					if devil and devil.has_method(\"call_Master_Buy\"):
+#						GameLogic.call_Info(1, \"尖爪手套+\")
+#						devil.call(\"call_Master_Buy\", 0, selected_text + \"升级+\")
+				else:
+#						#print(\"Devil 不存在或已被删除！\")
+#						GameLogic.call_Info(1, \"尖爪手套\")
+					#GameLogic.call_Info(1, \"兔耳发卡\")
+					pass
+#			#		for devil in Ysort_Update.get_children():
+#			#			if devil.has_method(\"call_Master_Buy\"):
+#			#				GameLogic.call_Info(1, \"尖爪手套+\")
+#			#				devil.call(\"call_Master_Buy\", 0, \"果糖机升级+\")
+#			#			else:
+#			#				GameLogic.call_Info(1, \"尖爪手套\")
+#				else:
+#					GameLogic.call_Info(1, \"兔耳发卡\")
+				#SteamLogic.call_master_node_sync(SteamLogic, \"call_Master_Buy\", [0, \"果糖机升级+\"])
+			else:
+
+				# 增加桌子
+				var _Delivery_Array: Array
+				var TMap_Delivery = GameLogic.Staff.LevelNode.get_node(\"MapNode/Delivery\")
+				var _UsedArray = TMap_Delivery.get_used_cells()
+				for _i in _UsedArray.size():
+					var _pointV2 = _UsedArray[_i] * 100 + Vector2(50, 50)
+					_Delivery_Array.append(_pointV2)
+				_Delivery_Array.shuffle()
+				var _rand = GameLogic.return_randi() % _Delivery_Array.size()
+				var _ItemName = \"Shelf_OnTable\"
+				var _TSCN = GameLogic.TSCNLoad.Shelf_OnTable_TSCN
+				var _Item = _TSCN.instance()
+				var _Info: Dictionary = {
+					\"NAME\": str(_Item.get_instance_id()), 
+					\"pos\": _Delivery_Array[_rand], 
+					\"LayerA_Obj\": null, 
+					\"LayerB_Obj\": null, 
+					\"LayerX_Obj\": null, 
+					\"LayerY_Obj\": null, 
+					}
+
+
+
+
+				GameLogic.Staff.LevelNode.Ysort_Items.add_child(_Item)
+				_Item.call_load(_Info)
+				
+		optionButton4_add()
+
+
+# 一键升级
+func _on_Button8_pressed():
+	find_and_store_devil()
+	if not devil_path:
+		var Ysort_Update = GameLogic.Staff.LevelNode.get_node(\"YSort/Updates\")
+		var _DEVIL = DEVIL_TSCN.instance()
+		_DEVIL.name = str(GameLogic.return_randi())
+		var _DEVILPOS = Vector2(0, 0)
+		_DEVIL.position = _DEVILPOS
+		Ysort_Update.add_child(_DEVIL)
+		_DEVIL.call_init()
+		if SteamLogic.IsMultiplay and SteamLogic.LOBBY_IsMaster:
+			SteamLogic.call_puppet_node_sync(GameLogic.Staff.LevelNode, \"_Puppet_Create_Item\", [\"Devil\", _DEVIL.name, _DEVILPOS, null])
+		find_and_store_devil()
+	var devil = get_node_or_null(devil_path)
+	for index in range(optionButton4.get_item_count()):
+		if index != -1:
+		# 获取当前选中项的文本
+			var selected_text = optionButton4.get_item_text(index)
+			#if selected_text != \"新增桌台\":
+			GameLogic.cur_Rewards.append(selected_text + \"升级+\")
+			
+			if SteamLogic.IsMultiplay and SteamLogic.LOBBY_IsMaster:
+				SteamLogic.call_puppet_node_sync(devil, \"call_BuyEnd_puppet\", [selected_text+\"升级+\"])
+			GameLogic.call_Reward()
+	devil_path = \"\"
+	optionButton4.clear()
+	added_items = {}
+
+# 刷新负面
+func _on_Button10_pressed():
+	if GameLogic.cur_Challenge.size() != 0:
+		optionButton3.clear()
+		for item in GameLogic.cur_Challenge:
+			optionButton3.add_item(item)
+
+# 定时查看是否需要配送
+var time_count =0
+func _on_TimerCheck_timeout():
+	if $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/CheckBox3.pressed:
+		if GameLogic.cur_Rewards.has(\"高速配送\"):
+			GameLogic.cur_Rewards.erase(\"高速配送\")
+			GameLogic.call_Reward()
+		if not GameLogic.cur_Rewards.has(\"高速配送+\"):
+			GameLogic.cur_Rewards.append(\"高速配送+\")
+			GameLogic.call_Reward()
+	else:
+		if GameLogic.cur_Rewards.has(\"高速配送+\"):
+			GameLogic.cur_Rewards.erase(\"高速配送+\")
+			GameLogic.call_Reward()
+	time_count += 1
+	#显示当前的恶魔契约
+	label15.text = \"当前恶魔契约：\" + GameLogic.cur_Event
+	
+	if GameLogic.cur_Day <=  GameLogic.cur_LevelDifficult.size() and GameLogic.cur_Rewards.size() >= 30 and GameLogic.GameOverType == 3: 
+		GameLogic.GameOverType = 0
+		GameLogic.MissionComplete_bool = true
+
+# 添加声望
+func _on_Popular_pressed():
+	if not GameLogic or not GameLogic.GameUI:
+		return
+	GameLogic.return_Popular(int($BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/TextEdit2.text),GameLogic.HomeMoneyKey)
+
+#添加10压力
+func _on_Button14_pressed():
+	GameLogic.call_Pressure_Set(10)
+
+
+func _on_Button12_pressed():
+	GameLogic.GameUI.CurTime = 20
+	pass
+#	s = ''
+
+#	TextEdit1.text = s
+#	GameLogic.GameOverType = 0
+
+#
+func update_visible_pages():
+	for i in range(pages.size()):
+		pages[i].visible = (i == current_page_index)
+
+
+func _on_PreButton_pressed():
+	 current_page_index -= 1
+	 if current_page_index < 0:
+		 current_page_index = 0  # 或者循环到 pages.size()-1
+	 update_visible_pages()
+
+
+
+func _on_NextButton_pressed():
+	 current_page_index += 1
+	 if current_page_index >= pages.size():
+		 current_page_index = pages.size() - 1  # 或者循环到 0
+	 update_visible_pages()
+
+
+func my_inventory_update(_inventory_handle):
+	TextEdit1.text += \"拦截信号\\n\"
+
+
+# 服装更新
+func _on_Clothes_CheckBox_toggled(button_pressed):
+	if button_pressed:
+		_EQUIPDIC_update()
+	else:
+		Steam.disconnect(\"inventory_full_update\", self, \"my_inventory_update\")
+		Steam.connect(\"inventory_full_update\",SteamLogic,\"_inventory_update\")
+		
+
+
+# 服装更新
+func _EQUIPDIC_update():
+	if Steam.is_connected(\"inventory_full_update\", SteamLogic, \"_inventory_update\"):
+		Steam.disconnect(\"inventory_full_update\", SteamLogic, \"_inventory_update\")
+	Steam.connect(\"inventory_full_update\",self,\"my_inventory_update\")
+	
+	for id in GameLogic.Config.CostumeConfig.keys():
+		if GameLogic.Config.CostumeConfig[id].class == \"Costume\":
+			SteamLogic._EQUIPDIC[int(id)] = {
+				\"Id\": randi(),  # 伪造 Steam 物品 ID
+				\"Num\": 1
+			}
+
+func show_costume_config():
+	
+	#var _REWARDLIST = GameLogic.Config.EventConfig
+	#var result_handle = Steam.triggerItemDrop(50001)
+	#TextEdit1.text += \"消息：\" + str(result_handle) + \"\\n\"
+	#TextEdit1.text += \"类型\" + str(typeof(GameLogic.Config.EventConfig))
+
+	options1 = []
+	for id in GameLogic.Config.CardConfig.keys():
+		var card_data = GameLogic.Config.CardConfig[id]
+		TextEdit1.text += to_json(id) + \": \" + to_json(card_data) + \"\\n\"
+		options5[id] = id
+		optionButton5.add_item(id)
+	
+	#TextEdit1.text += \"CostumeConfig:\\n\" + to_json(GameLogic.Config.CostumeConfig) + \"\\n\"
+	#TextEdit1.text += \"CostumeConfig:\\n\" + to_json(GameLogic.Config.CostumeConfig.keys()) + \"\\n\"
+	#TextEdit1.text += \"函数内部\\n\"
+	#var _result_handle = Steam.triggerItemDrop(53003)
+	#TextEdit1.text = TextEdit1.text + str(_result_handle) + \"\\n\"
+	#var _reTr = Steam.triggerItemDrop(53004)
+	#var item_definitions = PoolIntArray([1320019])  # 物品定义 ID
+	#var quantities = PoolIntArray([1])  # 对应的数量
+	#var result_handle  = Steam.generateItems(item_definitions, quantities)
+	
+	#SteamLogic.call_TriggerItemDrop()
+	#TextEdit1.text = TextEdit1.text + str(_result_handle) + \"\\n\"
+	
+	#TextEdit1.text = TextEdit1.text + \"NewGiftLIST:\"+str(GameLogic.Save.gameData[\"NewGiftLIST\"]) + \"\\n\"
+
+
+
+# 增加礼物
+func _on_Button11_pressed():
+	if not GameLogic or not GameLogic.GameUI:
+		return
+
+	var selected_index = optionButton5.get_selected()
+	if selected_index == -1:
+		return
+
+	var selected_text = optionButton5.get_item_text(selected_index)
+	if options5[selected_text] in GameLogic.cur_Rewards:
+		return  # 已有就不重复添加
+
+	GameLogic.cur_Rewards.append(options5[selected_text])
+	GameLogic.call_StatisticsData_Set(\"Count_OpenGift\", null, 1)
+	TextEdit1.text = to_json(GameLogic.cur_Rewards)
+	#GameLogic.call_Reward()
+
+
+# 一键增加
+func _on_Button13_pressed():
+	if not GameLogic or not GameLogic.GameUI:
+		return
+	for index in range(optionButton5.get_item_count()):
+		var selected_text = optionButton5.get_item_text(index)
+		if options5[selected_text] in GameLogic.cur_Rewards:
+			continue
+		GameLogic.cur_Rewards.append(options5[selected_text])
+		GameLogic.call_Reward()
+	GameLogic.cur_Popularity_Level = 100
+	GameLogic.return_Popular(1,GameLogic.HomeMoneyKey)
+	GameLogic.cur_Gift = 0
+
+
+
+# buff日子
+func _on_Button15_pressed():
+	var selected_index = optionButton6.get_selected()
+	if selected_index == -1:
+		return
+	var selected_text = optionButton6.get_item_text(selected_index)
+	GameLogic.cur_Event = selected_text
+
+	
+
+#重新排队
+func _on_Button16_pressed():
+	var cur_OrderList = GameLogic.Order.cur_OrderList
+	
+	for key in cur_OrderList.keys():
+		var value = cur_OrderList[key]
+		TextEdit1.text += str(key) + \" : \" + str(value) + \"\\n\"
+		restart_wait_from_start(key)
+
+
+# 重新排队
+func restart_wait_from_start(order_id):
+	var box = GameLogic.GameUI.OrderBox
+	var order_node = null
+	var path = str(order_id)
+	if box and box.has_node(path):
+		order_node = box.get_node(path)
+
+	# 把订单卡片的退款条重置到最大（你项目里自带联机同步）
+	if order_node and order_node.has_method(\"call_RefundTime_Set\"):
+		order_node.call_RefundTime_Set(order_node.RefundTimeBar.max_value)
+
+	# NPC 从头开始等待
+	if GameLogic.Order.cur_OrderList.has(order_id):
+		var npc = GameLogic.Order.cur_OrderList[order_id].NPC
+		if is_instance_valid(npc):
+			# 停掉会干扰“等待”的其它计时器
+			var kill_list = [
+				\"LogicNode/OrderTimer\",
+				\"LogicNode/OrderAngryTimer\",
+				\"LogicNode/LineWaitingTimer\",
+				\"LogicNode/StandTimer\"
+			]
+			for p in kill_list:
+				if npc.has_node(p):
+					npc.get_node(p).stop()
+
+			# 解开并停止 WaitingTimer（你的项目里用过 set_paused）
+			if npc.has_node(\"LogicNode/WaitingTimer\"):
+				var wt = npc.get_node(\"LogicNode/WaitingTimer\")
+				if wt and wt.has_method(\"set_paused\"):
+					wt.set_paused(false)
+				wt.stop()
+
+			# 用 NPC 自己的方法重置等待（会重算 WaitTime 并 start）
+			if npc.has_method(\"_WaitingTime_Set\"):
+				npc._WaitingTime_Set()
+			elif npc.has_node(\"LogicNode/WaitingTimer\"):
+				# 兜底：直接用退款条最大值启动
+				var wt2 = npc.get_node(\"LogicNode/WaitingTimer\")
+				var t = 10.0
+				if order_node and order_node.has(\"RefundTimeBar\") and order_node.RefundTimeBar:
+					t = float(order_node.RefundTimeBar.max_value)
+				wt2.wait_time = t
+				wt2.start(0)
+
+			# 拉回等待状态，避免停在 LINE/MOVE
+			npc.behavior = npc.BEHAVIOR.WAIT
+			npc.WaitingReset = false
+			npc._Path_IsFinish = true
+
+			# 如果你启用了“丢单重点”，防止立刻被拉去重排
+			if \"ReOrder\" in npc:
+				npc.ReOrder = false
+
+
+func _on_Button17_pressed():
+	GameLogic.GameUI.CurTime = 20
+"
+
+[sub_resource type="Theme" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[node name="Console" type="CanvasLayer"]
+pause_mode = 2
+layer = 128
+script = SubResource( 1 )
+
+[node name="BackgroundPanel" type="Panel" parent="."]
+modulate = Color( 0.71875, 0.71875, 0.71875, 1 )
+self_modulate = Color( 0.701961, 0.592157, 0.592157, 1 )
+margin_right = 521.0
+margin_bottom = 448.0
+
+[node name="PanelContainer" type="PanelContainer" parent="BackgroundPanel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -261.0
+margin_top = -413.0
+margin_right = 262.0
+margin_bottom = -2.0
+
+[node name="TabContainer" type="TabContainer" parent="BackgroundPanel/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 516.0
+margin_bottom = 404.0
+tab_align = 0
+
+[node name="InGame" type="Tabs" parent="BackgroundPanel/PanelContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Page1Container" type="Panel" parent="BackgroundPanel/PanelContainer/TabContainer/InGame"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -9.0
+margin_top = -9.0
+margin_right = 12.0
+margin_bottom = 13.0
+theme = SubResource( 2 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="CheckBox2" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = -3.0
+margin_top = 177.569
+margin_right = 97.0
+margin_bottom = 210.569
+text = "暂停时间"
+
+[node name="AddMoneyButton2" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.056
+anchor_bottom = 0.056
+margin_left = 6.0
+margin_top = -8.392
+margin_right = 142.0
+margin_bottom = 22.608
+text = "增加1000金钱"
+
+[node name="Button" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.06
+anchor_bottom = 0.06
+margin_left = 156.0
+margin_top = -10.06
+margin_right = 266.0
+margin_bottom = 20.94
+text = "增加10重抽币"
+
+[node name="ExpCheckBox" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_right = 0.053
+anchor_bottom = 0.315
+margin_left = -2.0
+margin_top = 88.569
+margin_right = 105.203
+margin_bottom = 45.024
+text = "经验倍率："
+
+[node name="ExpHSlider" type="HSlider" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_bottom = 0.066
+margin_left = 140.0
+margin_top = 92.0
+margin_right = 367.0
+margin_bottom = 92.434
+rect_pivot_offset = Vector2( 88, 50 )
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 5.0
+
+[node name="ExpLabel" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 393.0
+margin_top = 92.569
+margin_right = 449.0
+margin_bottom = 118.569
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "5.0 倍"
+
+[node name="PopularityCheckBox" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_right = 0.053
+anchor_bottom = 0.315
+margin_left = -2.0
+margin_top = 132.569
+margin_right = 105.574
+margin_bottom = 89.024
+text = "声望倍率："
+
+[node name="PopularityHSlider" type="HSlider" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_bottom = 0.066
+margin_left = 141.0
+margin_top = 139.569
+margin_right = 367.0
+margin_bottom = 139.757
+rect_pivot_offset = Vector2( 88, 50 )
+min_value = 1.0
+max_value = 5.0
+step = 0.1
+value = 2.0
+
+[node name="PopularityLabel" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 393.0
+margin_top = 140.569
+margin_right = 449.0
+margin_bottom = 166.569
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "2.0 倍"
+
+[node name="Button2" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.06
+anchor_bottom = 0.06
+margin_left = 289.0
+margin_top = -10.06
+margin_right = 369.0
+margin_bottom = 20.94
+rect_pivot_offset = Vector2( 35, 31 )
+text = "全员减压"
+
+[node name="OptionButton" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 5.0
+margin_top = 50.0
+margin_right = 112.0
+margin_bottom = 81.0
+
+[node name="Button3" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.06
+anchor_bottom = 0.06
+margin_left = 138.0
+margin_top = 34.94
+margin_right = 229.0
+margin_bottom = 65.94
+rect_pivot_offset = Vector2( 35, 31 )
+text = "添加物品"
+
+[node name="OptionButton2" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 257.0
+margin_top = 50.0
+margin_right = 364.0
+margin_bottom = 80.0
+
+[node name="Button4" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.06
+anchor_bottom = 0.06
+margin_left = 386.0
+margin_top = 34.94
+margin_right = 477.0
+margin_bottom = 65.94
+rect_pivot_offset = Vector2( 35, 31 )
+text = "添加顾客"
+
+[node name="Button6" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 512.0
+margin_top = -67.0
+margin_right = 599.0
+margin_bottom = -42.0
+text = "test"
+
+[node name="CheckBox3" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 142.0
+margin_top = 177.0
+margin_right = 250.0
+margin_bottom = 210.0
+text = "高速配送"
+
+[node name="CheckBox4" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 275.0
+margin_top = 178.0
+margin_right = 383.0
+margin_bottom = 211.0
+text = "F8快捷键召唤"
+
+[node name="TextEdit" type="TextEdit" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 605.0
+margin_top = -70.0
+margin_right = 957.0
+margin_bottom = 147.0
+
+[node name="Button12" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 506.0
+margin_top = -33.0
+margin_right = 605.0
+margin_bottom = 1.0
+text = "qifei
+"
+
+[node name="Button14" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.06
+anchor_bottom = 0.06
+margin_left = 386.0
+margin_top = -9.06
+margin_right = 466.0
+margin_bottom = 21.94
+rect_pivot_offset = Vector2( 35, 31 )
+text = "增加10压力"
+
+[node name="Button16" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.06
+anchor_bottom = 0.06
+margin_left = 4.5
+margin_top = 195.02
+margin_right = 84.5
+margin_bottom = 226.02
+rect_pivot_offset = Vector2( 35, 31 )
+text = "顾客重新等待"
+
+[node name="Button17" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+anchor_top = 0.06
+anchor_bottom = 0.06
+margin_left = 111.5
+margin_top = 195.02
+margin_right = 195.5
+margin_bottom = 226.02
+rect_pivot_offset = Vector2( 35, 31 )
+text = "关店"
+
+[node name="Page2Container" type="Panel" parent="BackgroundPanel/PanelContainer/TabContainer/InGame"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 4 )
+
+[node name="Label15" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 287.0
+margin_top = 160.0
+margin_right = 395.0
+margin_bottom = 189.0
+text = "当前恶魔契约："
+
+[node name="OptionButton3" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 121.0
+margin_bottom = 42.0
+
+[node name="Button5" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 137.0
+margin_top = 13.0
+margin_right = 228.0
+margin_bottom = 41.0
+text = "删除负面"
+
+[node name="OptionButton4" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 14.0
+margin_top = 57.0
+margin_right = 123.0
+margin_bottom = 89.0
+
+[node name="OptionButton6" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 13.0
+margin_top = 157.0
+margin_right = 122.0
+margin_bottom = 189.0
+
+[node name="OptionButton5" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 14.0
+margin_top = 105.0
+margin_right = 123.0
+margin_bottom = 137.0
+
+[node name="Button7" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 135.0
+margin_top = 57.0
+margin_right = 226.0
+margin_bottom = 88.0
+rect_pivot_offset = Vector2( 46, 20 )
+text = "设备升级"
+
+[node name="Button11" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 136.0
+margin_top = 106.0
+margin_right = 227.0
+margin_bottom = 137.0
+rect_pivot_offset = Vector2( 62, 16 )
+text = "礼物增加"
+
+[node name="Button13" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 248.0
+margin_top = 106.0
+margin_right = 339.0
+margin_bottom = 137.0
+rect_pivot_offset = Vector2( 62, 16 )
+text = "我全都要"
+
+[node name="Button15" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 135.0
+margin_top = 156.0
+margin_right = 241.0
+margin_bottom = 187.0
+rect_pivot_offset = Vector2( 62, 16 )
+text = "切换恶魔代价"
+
+[node name="Button8" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 249.0
+margin_top = 57.0
+margin_right = 339.0
+margin_bottom = 88.0
+text = "一键升级"
+
+[node name="Button9" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 249.0
+margin_top = 14.0
+margin_right = 339.0
+margin_bottom = 45.0
+text = "一键删除"
+
+[node name="Button10" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 359.0
+margin_top = 14.0
+margin_right = 449.0
+margin_bottom = 45.0
+text = "刷新负面"
+
+[node name="TextEdit2" type="TextEdit" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 98.0
+margin_top = 202.0
+margin_right = 195.0
+margin_bottom = 237.0
+text = "100000"
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+drag_and_drop_selection_enabled = false
+hiding_enabled = true
+
+[node name="Label" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 15.0
+margin_top = 204.0
+margin_right = 76.0
+margin_bottom = 233.0
+text = "声望："
+
+[node name="Popular" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 214.0
+margin_top = 203.0
+margin_right = 303.0
+margin_bottom = 232.0
+text = "声望添加"
+
+[node name="NextButton" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame"]
+margin_left = 456.0
+margin_top = 328.0
+margin_right = 480.0
+margin_bottom = 362.0
+rect_pivot_offset = Vector2( 48, 42 )
+text = ">
+"
+
+[node name="PreButton" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame"]
+margin_left = 426.0
+margin_top = 329.0
+margin_right = 450.0
+margin_bottom = 363.0
+rect_pivot_offset = Vector2( 48, 42 )
+text = "<
+"
+
+[node name="全局修改" type="Tabs" parent="BackgroundPanel/PanelContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 24.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="AddMoneyButton" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/全局修改"]
+margin_left = 5.0
+margin_top = 1.0
+margin_right = 132.0
+margin_bottom = 24.0
+text = "增加1000绿钞"
+
+[node name="Clothes_CheckBox" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/全局修改"]
+margin_left = 6.0
+margin_top = 38.0
+margin_right = 121.0
+margin_bottom = 69.0
+text = "服装解锁"
+
+[node name="DragPanelContainer" type="PanelContainer" parent="BackgroundPanel"]
+anchor_right = 1.0
+margin_top = -2.0
+margin_right = 3.0
+margin_bottom = 39.0
+
+[node name="TitleLable" type="Label" parent="BackgroundPanel/DragPanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 517.0
+margin_bottom = 21.0
+size_flags_vertical = 0
+text = "杯杯倒满 内置修改器 V1.0.0 "
+
+[node name="Label2" type="Label" parent="BackgroundPanel/DragPanelContainer"]
+margin_left = 480.0
+margin_top = 7.0
+margin_right = 517.0
+margin_bottom = 21.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "作者：hansa二创"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="UpdateTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="TimerCheck" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+anchor_left = 0.32666
+anchor_top = 0.470833
+anchor_right = 0.67334
+anchor_bottom = 0.529167
+margin_left = -21.4998
+margin_top = 2.50018
+margin_right = -21.4998
+margin_bottom = 2.50021
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TipLabel" type="Label" parent="Panel"]
+visible = false
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -12.5
+margin_bottom = 12.5
+text = "你的账号已被封禁，无法访问排行榜！"
+
+[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/CheckBox2" to="." method="GameTime_CheckBox_toggled"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/AddMoneyButton2" to="." method="AddInGameMoney"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button" to="." method="AddReDrawCoin"]
+[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/ExpCheckBox" to="." method="Exp_CheckBox_Toggled"]
+[connection signal="value_changed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/ExpHSlider" to="." method="Exp_HSlider_drag_ended"]
+[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityCheckBox" to="." method="PopularityCheckBox_toggled"]
+[connection signal="value_changed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityHSlider" to="." method="PopularityHSlider_value_changed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button2" to="." method="Pressure_Set"]
+[connection signal="button_down" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button3" to="." method="_on_Button3_button_down"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button3" to="." method="_on_Button3_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button4" to="." method="_on_Button4_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button6" to="." method="_on_Button6_pressed"]
+[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/CheckBox3" to="." method="Buy_item_toggled"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button12" to="." method="_on_Button12_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button14" to="." method="_on_Button14_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button16" to="." method="_on_Button16_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button17" to="." method="_on_Button17_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button5" to="." method="_on_Button5_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button7" to="." method="_on_Button7_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button11" to="." method="_on_Button11_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button13" to="." method="_on_Button13_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button15" to="." method="_on_Button15_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button8" to="." method="_on_Button8_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button9" to="." method="_on_Button9_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button10" to="." method="_on_Button10_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Popular" to="." method="_on_Popular_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/NextButton" to="." method="_on_NextButton_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/PreButton" to="." method="_on_PreButton_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/全局修改/AddMoneyButton" to="." method="AddMoney"]
+[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/全局修改/Clothes_CheckBox" to="." method="_on_Clothes_CheckBox_toggled"]
+[connection signal="timeout" from="Timer" to="." method="PauseBuy_Timer_timeout"]
+[connection signal="timeout" from="UpdateTimer" to="." method="UpdateTimer"]
+[connection signal="timeout" from="TimerCheck" to="." method="_on_TimerCheck_timeout"]
