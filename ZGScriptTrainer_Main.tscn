@@ -277,9 +277,9 @@ onready var dragpanel = $BackgroundPanel/DragPanelContainer
 onready var optionButton1 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/OptionButton
 onready var optionButton2 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/OptionButton2
 onready var optionButton3 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton3
-onready var optionButton4 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton4
-onready var optionButton5 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton5
-onready var optionButton6 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/OptionButton6
+onready var optionButton4 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/OptionButton4
+onready var optionButton5 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/OptionButton5
+onready var optionButton6 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/OptionButton6
 onready var label15 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Label15
 onready var TextEdit1 = $BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/TextEdit
 #	my_scene = get_tree().get_root().find_node(\"MyScene\", true, false)
@@ -289,7 +289,7 @@ onready var Page2Container = $BackgroundPanel/PanelContainer/TabContainer/InGame
 
 var current_page_index = 0
 var pages = []  # 用来存放页面节点引用
-var DEBUG = true
+var DEBUG = false
 var xixi = true
 
 # 每日事件
@@ -648,6 +648,7 @@ func optionButton4_add():
 			\"茶桶\",
 			\"破壁机\"
 		]
+
 		for machine_name in machines_base:
 			if not GameLogic.cur_Rewards.has(machine_name + \"升级+\") :
 				if not added_items.has(machine_name):
@@ -691,22 +692,22 @@ func LoadConfig(path) -> void:
 	
 	$BackgroundPanel/DragPanelContainer/TitleLable.text = \"杯杯倒满 内置修改器 V\" + version
 	
-	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/ExpCheckBox\".pressed = config.get_value(\"Setting\",\"Exp\",false)
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/ExpCheckBox\".pressed = config.get_value(\"Setting\",\"Exp\",false)
 	var tmp = float(config.get_value(\"Setting\",\"ExpMult\", 5.0))
 	if tmp < 1:
 		tmp = 1
 	elif tmp > 10:
 		tmp = 10
-	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/ExpHSlider\".value = tmp
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/ExpHSlider\".value = tmp
 	self.Exp_HSlider_drag_ended(tmp)
 	
-	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityCheckBox\".pressed = config.get_value(\"Setting\",\"Popularity\",false)
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/PopularityCheckBox\".pressed = config.get_value(\"Setting\",\"Popularity\",false)
 	tmp = float(config.get_value(\"Setting\",\"PopularityMult\", 2.0))
 	if tmp < 1:
 		tmp = 1
 	elif tmp > 5:
 		tmp = 5
-	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityHSlider\".value = tmp
+	$\"BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/PopularityHSlider\".value = tmp
 	self.PopularityHSlider_value_changed(tmp)
 	
 	KeyCode = key_name_to_code.get(config.get_value(\"Setting\",\"ShowTrainer\", \"KEY_F9\"),KEY_F9)
@@ -1085,6 +1086,8 @@ func _on_Button7_pressed(item_text = null):
 		var selected_index = optionButton4.get_selected()
 		if selected_index != -1:
 			var selected_text = optionButton4.get_item_text(selected_index)
+			if selected_text == \"一键升级\":
+				device_all_upgrade()
 			if selected_text != \"新增桌台\":
 				if devil.has_method(\"call_Master_Buy\"):
 #					_DEVIL.call(\"call_Master_Buy\", 0, selected_text + \"升级+\")
@@ -1149,7 +1152,7 @@ func _on_Button7_pressed(item_text = null):
 
 
 # 一键升级
-func _on_Button8_pressed():
+func device_all_upgrade():
 	find_and_store_devil()
 	if not devil_path:
 		var Ysort_Update = GameLogic.Staff.LevelNode.get_node(\"YSort/Updates\")
@@ -1165,6 +1168,7 @@ func _on_Button8_pressed():
 	var devil = get_node_or_null(devil_path)
 	for index in range(optionButton4.get_item_count()):
 		if index != -1:
+
 		# 获取当前选中项的文本
 			var selected_text = optionButton4.get_item_text(index)
 			#if selected_text != \"新增桌台\":
@@ -1433,6 +1437,10 @@ func restart_wait_from_start(order_id):
 
 func _on_Button17_pressed():
 	GameLogic.GameUI.CurTime = 20
+
+
+func _on_Button8_pressed():
+	device_all_upgrade()
 "
 
 [sub_resource type="Theme" id=2]
@@ -1488,10 +1496,10 @@ theme = SubResource( 2 )
 custom_styles/panel = SubResource( 3 )
 
 [node name="CheckBox2" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-margin_left = -3.0
-margin_top = 177.569
-margin_right = 97.0
-margin_bottom = 210.569
+margin_left = 13.5
+margin_top = 253.569
+margin_right = 113.5
+margin_bottom = 286.569
 text = "暂停时间"
 
 [node name="AddMoneyButton2" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
@@ -1512,66 +1520,6 @@ margin_right = 266.0
 margin_bottom = 20.94
 text = "增加10重抽币"
 
-[node name="ExpCheckBox" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-anchor_right = 0.053
-anchor_bottom = 0.315
-margin_left = -2.0
-margin_top = 88.569
-margin_right = 105.203
-margin_bottom = 45.024
-text = "经验倍率："
-
-[node name="ExpHSlider" type="HSlider" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-anchor_bottom = 0.066
-margin_left = 140.0
-margin_top = 92.0
-margin_right = 367.0
-margin_bottom = 92.434
-rect_pivot_offset = Vector2( 88, 50 )
-min_value = 1.0
-max_value = 10.0
-step = 0.1
-value = 5.0
-
-[node name="ExpLabel" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-margin_left = 393.0
-margin_top = 92.569
-margin_right = 449.0
-margin_bottom = 118.569
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "5.0 倍"
-
-[node name="PopularityCheckBox" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-anchor_right = 0.053
-anchor_bottom = 0.315
-margin_left = -2.0
-margin_top = 132.569
-margin_right = 105.574
-margin_bottom = 89.024
-text = "声望倍率："
-
-[node name="PopularityHSlider" type="HSlider" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-anchor_bottom = 0.066
-margin_left = 141.0
-margin_top = 139.569
-margin_right = 367.0
-margin_bottom = 139.757
-rect_pivot_offset = Vector2( 88, 50 )
-min_value = 1.0
-max_value = 5.0
-step = 0.1
-value = 2.0
-
-[node name="PopularityLabel" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-margin_left = 393.0
-margin_top = 140.569
-margin_right = 449.0
-margin_bottom = 166.569
-size_flags_horizontal = 0
-size_flags_vertical = 0
-text = "2.0 倍"
-
 [node name="Button2" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
 anchor_top = 0.06
 anchor_bottom = 0.06
@@ -1583,26 +1531,26 @@ rect_pivot_offset = Vector2( 35, 31 )
 text = "全员减压"
 
 [node name="OptionButton" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-margin_left = 5.0
-margin_top = 50.0
-margin_right = 112.0
-margin_bottom = 81.0
+margin_left = 10.5
+margin_top = 54.0
+margin_right = 117.5
+margin_bottom = 85.0
 
 [node name="Button3" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
 anchor_top = 0.06
 anchor_bottom = 0.06
-margin_left = 138.0
-margin_top = 34.94
-margin_right = 229.0
-margin_bottom = 65.94
+margin_left = 133.5
+margin_top = 33.02
+margin_right = 224.5
+margin_bottom = 64.02
 rect_pivot_offset = Vector2( 35, 31 )
 text = "添加物品"
 
 [node name="OptionButton2" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-margin_left = 257.0
-margin_top = 50.0
-margin_right = 364.0
-margin_bottom = 80.0
+margin_left = 260.5
+margin_top = 59.0
+margin_right = 367.5
+margin_bottom = 89.0
 
 [node name="Button4" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
 anchor_top = 0.06
@@ -1622,18 +1570,18 @@ margin_bottom = -42.0
 text = "test"
 
 [node name="CheckBox3" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-margin_left = 142.0
-margin_top = 177.0
-margin_right = 250.0
-margin_bottom = 210.0
+margin_left = 158.5
+margin_top = 253.0
+margin_right = 266.5
+margin_bottom = 286.0
 text = "高速配送"
 
 [node name="CheckBox4" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
-margin_left = 275.0
-margin_top = 178.0
-margin_right = 383.0
-margin_bottom = 211.0
-text = "F8快捷键召唤"
+margin_left = 291.5
+margin_top = 254.0
+margin_right = 399.5
+margin_bottom = 287.0
+text = "F8快捷键召唤顾客"
 
 [node name="TextEdit" type="TextEdit" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
 margin_left = 605.0
@@ -1662,35 +1610,84 @@ text = "增加10压力"
 [node name="Button16" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
 anchor_top = 0.06
 anchor_bottom = 0.06
-margin_left = 4.5
-margin_top = 195.02
-margin_right = 84.5
-margin_bottom = 226.02
+margin_left = 21.0
+margin_top = 271.02
+margin_right = 101.0
+margin_bottom = 302.02
 rect_pivot_offset = Vector2( 35, 31 )
 text = "顾客重新等待"
 
 [node name="Button17" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
 anchor_top = 0.06
 anchor_bottom = 0.06
-margin_left = 111.5
-margin_top = 195.02
-margin_right = 195.5
-margin_bottom = 226.02
+margin_left = 128.0
+margin_top = 271.02
+margin_right = 212.0
+margin_bottom = 302.02
 rect_pivot_offset = Vector2( 35, 31 )
 text = "关店"
+
+[node name="OptionButton4" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 9.5
+margin_top = 101.0
+margin_right = 118.5
+margin_bottom = 133.0
+
+[node name="Button7" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 130.5
+margin_top = 101.0
+margin_right = 221.5
+margin_bottom = 132.0
+rect_pivot_offset = Vector2( 46, 20 )
+text = "设备升级"
+
+[node name="Button11" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 131.5
+margin_top = 150.0
+margin_right = 222.5
+margin_bottom = 181.0
+rect_pivot_offset = Vector2( 62, 16 )
+text = "礼物增加"
+
+[node name="Button8" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 244.5
+margin_top = 101.0
+margin_right = 334.5
+margin_bottom = 132.0
+text = "一键升级"
+
+[node name="OptionButton6" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 8.5
+margin_top = 201.0
+margin_right = 117.5
+margin_bottom = 233.0
+
+[node name="OptionButton5" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 9.5
+margin_top = 149.0
+margin_right = 118.5
+margin_bottom = 181.0
+
+[node name="Button15" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 130.5
+margin_top = 200.0
+margin_right = 236.5
+margin_bottom = 231.0
+rect_pivot_offset = Vector2( 62, 16 )
+text = "切换恶魔代价"
+
+[node name="Label15" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container"]
+margin_left = 266.5
+margin_top = 201.0
+margin_right = 374.5
+margin_bottom = 230.0
+text = "当前恶魔契约："
 
 [node name="Page2Container" type="Panel" parent="BackgroundPanel/PanelContainer/TabContainer/InGame"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 4 )
-
-[node name="Label15" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 287.0
-margin_top = 160.0
-margin_right = 395.0
-margin_bottom = 189.0
-text = "当前恶魔契约："
 
 [node name="OptionButton3" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
 margin_left = 14.0
@@ -1704,63 +1701,6 @@ margin_top = 13.0
 margin_right = 228.0
 margin_bottom = 41.0
 text = "删除负面"
-
-[node name="OptionButton4" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 14.0
-margin_top = 57.0
-margin_right = 123.0
-margin_bottom = 89.0
-
-[node name="OptionButton6" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 13.0
-margin_top = 157.0
-margin_right = 122.0
-margin_bottom = 189.0
-
-[node name="OptionButton5" type="OptionButton" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 14.0
-margin_top = 105.0
-margin_right = 123.0
-margin_bottom = 137.0
-
-[node name="Button7" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 135.0
-margin_top = 57.0
-margin_right = 226.0
-margin_bottom = 88.0
-rect_pivot_offset = Vector2( 46, 20 )
-text = "设备升级"
-
-[node name="Button11" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 136.0
-margin_top = 106.0
-margin_right = 227.0
-margin_bottom = 137.0
-rect_pivot_offset = Vector2( 62, 16 )
-text = "礼物增加"
-
-[node name="Button13" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 248.0
-margin_top = 106.0
-margin_right = 339.0
-margin_bottom = 137.0
-rect_pivot_offset = Vector2( 62, 16 )
-text = "我全都要"
-
-[node name="Button15" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 135.0
-margin_top = 156.0
-margin_right = 241.0
-margin_bottom = 187.0
-rect_pivot_offset = Vector2( 62, 16 )
-text = "切换恶魔代价"
-
-[node name="Button8" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
-margin_left = 249.0
-margin_top = 57.0
-margin_right = 339.0
-margin_bottom = 88.0
-text = "一键升级"
 
 [node name="Button9" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
 margin_left = 249.0
@@ -1800,6 +1740,66 @@ margin_top = 203.0
 margin_right = 303.0
 margin_bottom = 232.0
 text = "声望添加"
+
+[node name="ExpCheckBox" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+anchor_right = 0.053
+anchor_bottom = 0.315
+margin_left = -2.0
+margin_top = 88.569
+margin_right = 105.203
+margin_bottom = 45.024
+text = "经验倍率："
+
+[node name="ExpHSlider" type="HSlider" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+anchor_bottom = 0.066
+margin_left = 140.0
+margin_top = 92.0
+margin_right = 367.0
+margin_bottom = 92.434
+rect_pivot_offset = Vector2( 88, 50 )
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 5.0
+
+[node name="ExpLabel" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 393.0
+margin_top = 92.569
+margin_right = 449.0
+margin_bottom = 118.569
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "5.0 倍"
+
+[node name="PopularityCheckBox" type="CheckBox" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+anchor_right = 0.053
+anchor_bottom = 0.315
+margin_left = -2.0
+margin_top = 132.569
+margin_right = 105.574
+margin_bottom = 89.024
+text = "声望倍率："
+
+[node name="PopularityHSlider" type="HSlider" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+anchor_bottom = 0.066
+margin_left = 141.0
+margin_top = 139.569
+margin_right = 367.0
+margin_bottom = 139.757
+rect_pivot_offset = Vector2( 88, 50 )
+min_value = 1.0
+max_value = 5.0
+step = 0.1
+value = 2.0
+
+[node name="PopularityLabel" type="Label" parent="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container"]
+margin_left = 393.0
+margin_top = 140.569
+margin_right = 449.0
+margin_bottom = 166.569
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "2.0 倍"
 
 [node name="NextButton" type="Button" parent="BackgroundPanel/PanelContainer/TabContainer/InGame"]
 margin_left = 456.0
@@ -1901,10 +1901,6 @@ text = "你的账号已被封禁，无法访问排行榜！"
 [connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/CheckBox2" to="." method="GameTime_CheckBox_toggled"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/AddMoneyButton2" to="." method="AddInGameMoney"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button" to="." method="AddReDrawCoin"]
-[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/ExpCheckBox" to="." method="Exp_CheckBox_Toggled"]
-[connection signal="value_changed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/ExpHSlider" to="." method="Exp_HSlider_drag_ended"]
-[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityCheckBox" to="." method="PopularityCheckBox_toggled"]
-[connection signal="value_changed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/PopularityHSlider" to="." method="PopularityHSlider_value_changed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button2" to="." method="Pressure_Set"]
 [connection signal="button_down" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button3" to="." method="_on_Button3_button_down"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button3" to="." method="_on_Button3_pressed"]
@@ -1915,15 +1911,18 @@ text = "你的账号已被封禁，无法访问排行榜！"
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button14" to="." method="_on_Button14_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button16" to="." method="_on_Button16_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button17" to="." method="_on_Button17_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button7" to="." method="_on_Button7_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button11" to="." method="_on_Button11_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button8" to="." method="_on_Button8_pressed"]
+[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page1Container/Button15" to="." method="_on_Button15_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button5" to="." method="_on_Button5_pressed"]
-[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button7" to="." method="_on_Button7_pressed"]
-[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button11" to="." method="_on_Button11_pressed"]
-[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button13" to="." method="_on_Button13_pressed"]
-[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button15" to="." method="_on_Button15_pressed"]
-[connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button8" to="." method="_on_Button8_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button9" to="." method="_on_Button9_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Button10" to="." method="_on_Button10_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/Popular" to="." method="_on_Popular_pressed"]
+[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/ExpCheckBox" to="." method="Exp_CheckBox_Toggled"]
+[connection signal="value_changed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/ExpHSlider" to="." method="Exp_HSlider_drag_ended"]
+[connection signal="toggled" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/PopularityCheckBox" to="." method="PopularityCheckBox_toggled"]
+[connection signal="value_changed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/Page2Container/PopularityHSlider" to="." method="PopularityHSlider_value_changed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/NextButton" to="." method="_on_NextButton_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/InGame/PreButton" to="." method="_on_PreButton_pressed"]
 [connection signal="pressed" from="BackgroundPanel/PanelContainer/TabContainer/全局修改/AddMoneyButton" to="." method="AddMoney"]
