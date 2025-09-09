@@ -257,7 +257,7 @@ var CanPopularityMult = false
 var PopularityMult = 2.0
 var KeyCode = KEY_F9
 
-var version = \"1.1.0\"
+var version = \"1.1.1\"
 var mod_path
 var config = ConfigFile.new()
 var configpath
@@ -646,7 +646,8 @@ func optionButton4_add():
 			\"蒸汽机\", 
 			\"电磁炉\", 
 			\"茶桶\",
-			\"破壁机\"
+			\"破壁机\",
+			\"搅拌机\"
 		]
 
 		for machine_name in machines_base:
@@ -1278,18 +1279,21 @@ func _EQUIPDIC_update():
 			}
 
 func show_costume_config():
-	
+	pass
 	#var _REWARDLIST = GameLogic.Config.EventConfig
 	#var result_handle = Steam.triggerItemDrop(50001)
 	#TextEdit1.text += \"消息：\" + str(result_handle) + \"\\n\"
 	#TextEdit1.text += \"类型\" + str(typeof(GameLogic.Config.EventConfig))
+	#info(\"msg\",to_json(SteamLogic.STEAM_ID))
 
-	options1 = []
-	for id in GameLogic.Config.CardConfig.keys():
-		var card_data = GameLogic.Config.CardConfig[id]
-		TextEdit1.text += to_json(id) + \": \" + to_json(card_data) + \"\\n\"
-		options5[id] = id
-		optionButton5.add_item(id)
+	#options1 = []
+	#info(\"id\",SteamLogic.STEAM_ID)
+	#SteamLogic.STEAM_ID = 76561198024456526
+	#info(\"id\",SteamLogic.STEAM_ID)
+	#for id in GameLogic.Config.SceneConfig.keys():
+	#	var card_data = GameLogic.Config.SceneConfig[id]
+	#	TextEdit1.text += to_json(id) + \": \" + to_json(card_data) + \"\\n\"
+	#	info(\"msg\",GameLogic.Level_Data[id])
 	
 	#TextEdit1.text += \"CostumeConfig:\\n\" + to_json(GameLogic.Config.CostumeConfig) + \"\\n\"
 	#TextEdit1.text += \"CostumeConfig:\\n\" + to_json(GameLogic.Config.CostumeConfig.keys()) + \"\\n\"
